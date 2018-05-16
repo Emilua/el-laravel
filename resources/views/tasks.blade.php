@@ -1,45 +1,36 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Laravel</title>
+@extends('layouts.app')
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+@section('content')
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+<!-- Bootstrap шаблон... -->
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
+<div class="panel-body">
+    <!-- Отображение ошибок проверки ввода -->
+    @include('common.errors')
 
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
+    <!-- Форма новой задачи -->
+    <form action="{{ url('task') }}" method="POST" class="form-horizontal">
+        {{ csrf_field() }}
 
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
+        <!-- Имя задачи -->
+        <div class="form-group">
+            <label for="task" class="col-sm-3 control-label">Задача</label>
 
-            .title {
-                font-size: 96px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title">Laravel 5</div>
+            <div class="col-sm-6">
+                <input type="text" name="name" id="task-name" class="form-control">
             </div>
         </div>
-    </body>
-</html>
+
+        <!-- Кнопка добавления задачи -->
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-6">
+                <button type="submit" class="btn btn-default">
+                    <i class="fa fa-plus"></i> Добавить задачу
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- TODO: Текущие задачи -->
+@endsection
