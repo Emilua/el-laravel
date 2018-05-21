@@ -7,7 +7,7 @@
 <div class="panel-body">
     <!-- Отображение ошибок проверки ввода -->
     @include('common.errors')
-
+@if(!empty($task))
     <!-- Форма новой задачи -->
     <form action="{{ url('task/edit') }}" method="POST" class="form-horizontal" value="{{$task->name}}">
         {{ csrf_field() }}
@@ -30,5 +30,8 @@
             </div>
         </div>
     </form>
+    @else
+    <p> no task for edit<a href="{{'/'}}">to all tasks </a></p>
+    @endif
 </div>
 @endsection
