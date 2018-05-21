@@ -1,5 +1,6 @@
 <?php
 
+use App\News;
 use App\Task;
 use Illuminate\Http\Request;
 
@@ -63,4 +64,25 @@ Route::post('/task/edit', function (Request $request) {
     $task->name = $request->name;
     $task->save();
     return redirect('/');
+});
+
+ /**
+   * Вывести панель с новостями
+   */
+Route::get('/', function () {
+    //
+});
+
+/**
+ * Добавить новую новость
+ */
+Route::post('/task', function (Request $request) {
+    //
+});
+
+/**
+ * Удалить новость
+ */
+Route::delete('/task/{task}', function (Task $task) {
+    //
 });
