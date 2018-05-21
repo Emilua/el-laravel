@@ -63,13 +63,7 @@
                         
                         </form>
                         <td>
-                        <form action="{{url('task/'.$task->id)}}" method="post">
-                            {{ csrf_field()}}
-                            {{method_field('delete')}}
-                        <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                        
-                        </form>
-                        
+                            <a href="{{url('task/edit/'.$task->id)}}" class="fa fa-edit"></a>
                     </td>
                     </td>
                 </tr>

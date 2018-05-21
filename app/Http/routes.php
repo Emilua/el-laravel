@@ -42,11 +42,12 @@ Route::delete('/task/{task}', function (Task $task) {
    $task->delete();
    return redirect('/');
 });
-//
-//Route::?('/task/{task}', function (Task $task) {
-//edit//form
-//});
-//
-//Route::post('/task/{task}', function (Task $task) {
-//edit//save to db
-//});
+
+Route::get('/task/edit/{task}', function (Task $task) {
+  return view ('taskedit',[
+      'task'=>$task,
+          ]);
+});
+Route::post('/task/edit', function (Request  $request) {
+    var_dump($request->id);
+});
