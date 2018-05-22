@@ -1,6 +1,6 @@
 <?php
 
-use App\News;
+use App\News_item;
 use App\Task;
 use Illuminate\Http\Request;
 
@@ -66,23 +66,43 @@ Route::post('/task/edit', function (Request $request) {
     return redirect('/');
 });
 
- /**
-   * Вывести панель с новостями
-   */
-Route::get('/', function () {
-    //
-});
-
 /**
- * Добавить новую новость
+ * Вывести панель с задачами
  */
-Route::post('/task', function (Request $request) {
-    //
+Route::get('/newsitem', function () {
+    return view('news');
 });
+Route::post('/newsitem/news', function (Request $request) {
+    $validator = Validator::make($request->all(), [
+                'name' => 'required|max:255|min:6',
+    ]);
 
-/**
- * Удалить новость
- */
-Route::delete('/task/{task}', function (Task $task) {
-    //
+    if ($validator->fails()) {
+        return redirect('/newsitem')
+                        ->withInput()
+                        ->withErrors($validator);
+    }
+    var_dump($request->name);
+
+    $task = new News_item();
+    $task->name = $request->name;
+    $task->save();
+    return redirect('/newsitem');
 });
+Route::delete('/newsitem/newsitem/{newsitem}', function (News_item $newsitem) {
+    $newsitem->delete();
+    return redirect('/newsitem');
+});
+/**
+ * Добавить новую задачу
+ */
+//Route::post('/task', function (Request $request) {
+//    //
+//});
+//
+///**
+// * Удалить задачу
+// */
+//Route::delete('/task/{task}', function (Task $task) {
+//    //
+//});
