@@ -2,35 +2,38 @@
 
 @section('content')
 
-  <!-- Bootstrap шаблон... -->
+<!-- Bootstrap шаблон... -->
 
-  <div class="panel-body">
+<div class="panel-body">
     <!-- Отображение ошибок проверки ввода -->
     @include('common.errors')
 
     <!-- Форма новой задачи -->
-    <form action="{{ url('newsitem/news') }}" method="POST" class="form-horizontal">
-      {{ csrf_field() }}
+    <form action="{{ url('/news') }}" method="POST" class="form-horizontal">
+        {{ csrf_field() }}
 
-      <!-- Имя задачи -->
-      <div class="form-group">
-        <label for="newsitem" class="col-sm-3 control-label">Новость</label>
+        <!-- Имя задачи -->
+        <div class="form-group">
+            <label for="news" class="col-sm-3 control-label">Новость</label>
 
-        <div class="col-sm-6">
-          <input type="text" name="name" id="task-name" class="form-control">
+            <div class="col-sm-6">
+                <input type="text" name="name" id="news-name" class="form-control">
+            </div>
+            <div class="col-sm-6">
+                <textarea name="text" id="news-name" class="form-control"></textarea>
+            </div>
         </div>
-      </div>
 
-      <!-- Кнопка добавления задачи -->
-      <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-6">
-          <button type="submit" class="btn btn-default">
-            <i class="fa fa-plus"></i> Добавить новость
-          </button>
+        <!-- Кнопка добавления задачи -->
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-6">
+                <button type="submit" class="btn btn-default">
+                    <i class="fa fa-plus"></i> Добавить новость
+                </button>
+            </div>
         </div>
-      </div>
     </form>
-  </div>
+</div>
 @if (count($news) > 0)
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -42,28 +45,34 @@
 
             <!-- Заголовок таблицы -->
             <thead>
-            <th>Newsitem</th>
+            <th>News</th>
             <th>&nbsp;</th>
             </thead>
 
             <!-- Тело таблицы -->
             <tbody>
-                @foreach ($news as $newsitem)
+                @foreach ($news as $news_item)
                 <tr>
                     <!-- Имя задачи -->
                     <td class="table-text">
-                        <div>{{ $newsitem->name }}</div>
+                        <div title="{{ $news_item->text }}">{{ $news_item->name }}</div>
+                    </td>
+                    <td class="table-text">
+                        <div>{{ $news_item->text }}</div>
+                    </td>
+                    <td class="table-text">
+                        <div>{{ $news_item->updated_at }}</div>
                     </td>
 
                     <td>
-                        <form action="{{url('newsitem/news/'.$newsitem->id)}}" method="post">
+                        <form action="{{url('/news/'.$news_item->id)}}" method="post">
                             {{ csrf_field()}}
                             {{method_field('delete')}}
                         <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
                         
                         </form>
                         <td>
-                            <a href="{{url('newsitem/news/edit/'.$newsitem->id)}}" class="fa fa-edit"></a>
+                            <a href="{{url('/news/edit/'.$news_item->id)}}" class="fa fa-edit"></a>
                     </td>
                     </td>
                 </tr>
@@ -73,5 +82,4 @@
     </div>
 </div>
 @endif
-  <!-- TODO: Текущие задачи -->
 @endsection

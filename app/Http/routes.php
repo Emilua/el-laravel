@@ -1,6 +1,7 @@
 <?php
 
-use App\News_item;
+use Carbon\Carbon;
+use App\News;
 use App\Task;
 use Illuminate\Http\Request;
 
@@ -69,40 +70,35 @@ Route::post('/task/edit', function (Request $request) {
 /**
  * Вывести панель с задачами
  */
-Route::get('/newsitem', function () {
-    return view('news');
+Route::get('/news', function () {
+    $news = News::orderBy('created_at', 'asc')->get();
+    return view('news', ['news' => $news]);
 });
-Route::post('/newsitem/news', function (Request $request) {
-    $validator = Validator::make($request->all(), [
-                'name' => 'required|max:255|min:6',
+Route::post('/news', function (Request $request) {
+    $news = new News();
+    $news->name = $request->name;
+    $news->text = $request->text;
+    $news->save();
+    return redirect('/news');
+});
+Route::delete('/news/{news}', function (News $news) {
+    $news->delete();
+    return redirect('/news');
+});
+
+Route::get('/news/edit/{news}', function (News $news) {
+    return view('newsedit', [
+        'news' => $news,
     ]);
-
-    if ($validator->fails()) {
-        return redirect('/newsitem')
-                        ->withInput()
-                        ->withErrors($validator);
-    }
-    var_dump($request->name);
-
-    $task = new News_item();
-    $task->name = $request->name;
-    $task->save();
-    return redirect('/newsitem');
 });
-Route::delete('/newsitem/newsitem/{newsitem}', function (News_item $newsitem) {
-    $newsitem->delete();
-    return redirect('/newsitem');
+Route::post('/news/edit', function (Request $request) {
+
+
+    $news = News::find($request->id);
+
+    $news->name = $request->name;
+    $news->text = $request->text;
+    $news->updated_at = Carbon::now('Europe/Kiev');
+    $news->save();
+    return redirect('/news');
 });
-/**
- * Добавить новую задачу
- */
-//Route::post('/task', function (Request $request) {
-//    //
-//});
-//
-///**
-// * Удалить задачу
-// */
-//Route::delete('/task/{task}', function (Task $task) {
-//    //
-//});
